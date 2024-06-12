@@ -38,19 +38,30 @@ namespace Ej1
 
             for (int i=0; i<contro.Cont;i++) 
             {
+                CTiempo.lbNumeroComp.Text = $"{i + 1}";
                 CTiempo.ShowDialog();
                 contro.CargarTiempo(i, Convert.ToInt32(CTiempo.tbTHoras.Text), Convert.ToInt32(CTiempo.tbTMinutos.Text));
-
-
+                CTiempo.tbTHoras.Text = "";
+                CTiempo.tbTMinutos.Text = "";
             }
-
-            
-
         }
 
         private void btnVerResultados_Click(object sender, EventArgs e)
         {
+            FormVerResultados VerResul = new FormVerResultados();
 
+            VerResul.lbxResultados.Items.Clear();
+            contro.OrdenarListadoPorTiempo();
+            for (int i=0;i<contro.Cont;i++) 
+            {
+                int tiempo = contro.Tiempo[i];
+                int H = tiempo / 60;
+                int M = tiempo % 60;
+
+                VerResul.lbxResultados.Items.Add($"{i+1:000} - {contro.Nombres[i]} - {H:00}:{M:00}");
+            }
+
+            VerResul.ShowDialog();
         }
     }
 }
